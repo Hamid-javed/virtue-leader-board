@@ -84,7 +84,7 @@ const Header: React.FC = () => {
         fill
         className="object-cover absolute top-0 left-0 opacity-70"
       />
-      <div className="text-center py-4 md:py-8 px-4 mb-3 md:mb-5">
+      <div className="text-center py-4 md:py-8 px-4 mb-3 md:mb-5 relative">
         <div className="flex flex-col md:flex-row items-center justify-center mb-4 gap-3 md:gap-6">
           <Image
             src="/images/logo.png"
@@ -100,13 +100,12 @@ const Header: React.FC = () => {
         <p className="text-base md:text-lg lg:text-xl text-gray-500 mb-4 md:mb-6 max-w-2xl mx-auto animate-fade-in-delay px-4">
           Track the holders, identify the jeets, celebrate the diamond hands.
         </p>
-        <div className="inline-block p-[1px] w-[280px] md:w-[320px] lg:w-[387px] rounded-2xl md:rounded-3xl bg-gradient-to-b from-[#ebc83d] to-transparent relative animate-fade-in-delay-2">
-          <div className="bg-[#000000B2] rounded-2xl md:rounded-3xl px-6 md:px-8 lg:px-12 py-3 md:py-4">
+        <div className="inline-block  w-[280px] md:w-[320px] lg:w-[387px] rounded-2xl md:rounded-3xl border-b-0 border-2 border-[#ebc83dcc] relative animate-fade-in-delay-2">
+          <div className="bg-[#000000B2]  rounded-2xl md:rounded-3xl px-6 md:px-8 lg:px-12 py-3 md:py-4">
             <span className="text-white font-semibold text-xl md:text-2xl lg:text-[35px]">
               Total Wallets 128
             </span>
           </div>
-          <div className="bg-[#0000002a] rounded-2xl md:rounded-3xl px-4 md:px-6 lg:px-8 py-3 md:py-4 absolute top-0 left-0 w-full h-full"></div>
         </div>
       </div>
       <div className="flex flex-col items-center my-8 relative">
