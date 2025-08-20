@@ -77,36 +77,36 @@ const Header: React.FC = () => {
   }, []);
 
   return (
-    <header className="py-14 relative mb-20">
+    <header className="py-8 md:py-14 relative mb-12 md:mb-20">
       <Image
         src="/images/topShadow.png"
         alt="Virtue Token"
         fill
         className="object-cover absolute top-0 left-0 opacity-70"
       />
-      <div className="text-center py-8 px-4 mb-5">
-        <div className="flex items-center justify-center mb-4 gap-6">
+      <div className="text-center py-4 md:py-8 px-4 mb-3 md:mb-5">
+        <div className="flex flex-col md:flex-row items-center justify-center mb-4 gap-3 md:gap-6">
           <Image
             src="/images/logo.png"
             alt="Virtue Token"
             width={75}
             height={74}
-            className="animate-pulse"
+            className="animate-pulse w-16 h-16 md:w-[75px] md:h-[74px]"
           />
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-2 animate-fade-in">
+          <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-white mb-2 animate-fade-in text-center">
             Virtue Token Leaderboard
           </h1>
         </div>
-        <p className="text-lg md:text-xl text-gray-500 mb-6 max-w-2xl mx-auto animate-fade-in-delay">
+        <p className="text-base md:text-lg lg:text-xl text-gray-500 mb-4 md:mb-6 max-w-2xl mx-auto animate-fade-in-delay px-4">
           Track the holders, identify the jeets, celebrate the diamond hands.
         </p>
-        <div className="inline-block p-[1px] w-[387px] rounded-3xl bg-gradient-to-b from-[#ebc83d] to-transparent relative animate-fade-in-delay-2">
-          <div className="bg-[#000000B2] rounded-3xl px-12 py-4">
-            <span className="text-white font-semibold text-[35px]">
+        <div className="inline-block p-[1px] w-[280px] md:w-[320px] lg:w-[387px] rounded-2xl md:rounded-3xl bg-gradient-to-b from-[#ebc83d] to-transparent relative animate-fade-in-delay-2">
+          <div className="bg-[#000000B2] rounded-2xl md:rounded-3xl px-6 md:px-8 lg:px-12 py-3 md:py-4">
+            <span className="text-white font-semibold text-xl md:text-2xl lg:text-[35px]">
               Total Wallets 128
             </span>
           </div>
-          <div className="bg-[#0000002a] rounded-3xl px-8 py-4 absolute top-0 left-0 w-full h-full"></div>
+          <div className="bg-[#0000002a] rounded-2xl md:rounded-3xl px-4 md:px-6 lg:px-8 py-3 md:py-4 absolute top-0 left-0 w-full h-full"></div>
         </div>
       </div>
       <div className="flex flex-col items-center my-8 relative">
@@ -146,7 +146,18 @@ const Header: React.FC = () => {
             initialSlide={2} // Start with Bitcoin (BTC) in center
             loop={false}
             speed={800}
-            spaceBetween={120}
+            spaceBetween={60}
+            breakpoints={{
+              640: {
+                spaceBetween: 80,
+              },
+              768: {
+                spaceBetween: 100,
+              },
+              1024: {
+                spaceBetween: 120,
+              },
+            }}
           >
             {cryptos.map((crypto, index) => {
               const isSelected = selectedCrypto === crypto.id;
@@ -167,19 +178,34 @@ const Header: React.FC = () => {
 
               if (distance === 0) {
                 // Selected crypto (center) - LARGE
-                buttonSize = "w-56 h-56";
-                iconSize = "w-48 h-48";
-                pcircleSize = 240;
+                buttonSize = "w-32 h-32 md:w-40 md:h-40 lg:w-56 lg:h-56";
+                iconSize = "w-28 h-28 md:w-36 md:h-36 lg:w-48 lg:h-48";
+                pcircleSize =
+                  window.innerWidth < 640
+                    ? 128
+                    : window.innerWidth < 1024
+                    ? 160
+                    : 240;
               } else if (distance === 1) {
                 // Adjacent cryptos - MEDIUM
-                buttonSize = "w-40 h-40";
-                iconSize = "w-32 h-32";
-                pcircleSize = 160;
+                buttonSize = "w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40";
+                iconSize = "w-20 h-20 md:w-28 md:h-28 lg:w-32 lg:h-32";
+                pcircleSize =
+                  window.innerWidth < 640
+                    ? 96
+                    : window.innerWidth < 1024
+                    ? 128
+                    : 160;
               } else {
                 // Outer cryptos - SMALL
-                buttonSize = "w-32 h-32";
-                iconSize = "w-24 h-24";
-                pcircleSize = 128;
+                buttonSize = "w-20 h-20 md:w-28 md:h-28 lg:w-32 lg:h-32";
+                iconSize = "w-16 h-16 md:w-24 md:h-24 lg:w-24 lg:h-24";
+                pcircleSize =
+                  window.innerWidth < 640
+                    ? 80
+                    : window.innerWidth < 1024
+                    ? 96
+                    : 128;
               }
 
               return (
@@ -213,20 +239,56 @@ const Header: React.FC = () => {
                         isSelected
                           ? " border-white shadow-lg shadow-white/50" // Enhanced selected border
                           : "border-2 border-white/70 hover:border-white" // Hover effect for others
-                      } ${isHovered ? "scale-105" : ""}`}
+                      }`}
                     />
 
                     {/* Crypto icon with enhanced animations */}
                     <Image
                       src={crypto.icon}
                       alt={crypto.name}
-                      width={isSelected ? 80 : distance === 1 ? 60 : 40}
-                      height={isSelected ? 80 : distance === 1 ? 60 : 40}
+                      width={
+                        isSelected
+                          ? window.innerWidth < 640
+                            ? 40
+                            : window.innerWidth < 1024
+                            ? 60
+                            : 80
+                          : distance === 1
+                          ? window.innerWidth < 640
+                            ? 30
+                            : window.innerWidth < 1024
+                            ? 45
+                            : 60
+                          : window.innerWidth < 640
+                          ? 20
+                          : window.innerWidth < 1024
+                          ? 30
+                          : 40
+                      }
+                      height={
+                        isSelected
+                          ? window.innerWidth < 640
+                            ? 40
+                            : window.innerWidth < 1024
+                            ? 60
+                            : 80
+                          : distance === 1
+                          ? window.innerWidth < 640
+                            ? 30
+                            : window.innerWidth < 1024
+                            ? 45
+                            : 60
+                          : window.innerWidth < 640
+                          ? 20
+                          : window.innerWidth < 1024
+                          ? 30
+                          : 40
+                      }
                       className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-out ${iconSize} ${
                         isSelected
-                          ? "animate-pulse-slow border-2 border-white rounded-full shadow-lg"
+                          ? "border-2 border-white rounded-full shadow-lg"
                           : ""
-                      } ${isHovered ? "scale-110" : ""}`}
+                      }`}
                     />
 
                     {/* Selection indicator */}
@@ -249,30 +311,30 @@ const Header: React.FC = () => {
           </Swiper>
         </div>
 
-        <div className="w-[3px] h-14 bg-white mb-2 animate-grow "></div>
+        <div className="w-[6px] h-14 bg-white mb-2 animate-grow "></div>
         <div className="text-center mb-4">
           <p className="text-gray-400 text-sm animate-pulse">
             ← Swipe or use arrows to navigate →
           </p>
         </div>
-        <div className=" w-[416px] h-[98px] animate-fade-in-delay-2 relative">
+        <div className="w-full max-w-[416px] h-[60px] md:h-[80px] lg:h-[98px] animate-fade-in-delay-2 relative">
           <Image
             src="/images/rightLine.png"
             alt="rightLine"
             width={100}
             height={100}
-            className="absolute w-[230px] -top-16 left-[22.5%] transform -translate-x-1/2"
+            className="hidden lg:block absolute w-[120px] md:w-[180px] lg:w-[230px] -top-8 md:-top-12 lg:-top-16 left-[22.5%] transform -translate-x-1/2"
           />
           <Image
             src="/images/leftLine.png"
-            alt="rightLine"
+            alt="leftLine"
             width={100}
             height={100}
-            className="absolute w-[230px] -top-16 left-[77.5%] transform-40 transform -translate-x-1/2"
+            className="hidden lg:block absolute w-[120px] md:w-[180px] lg:w-[230px] -top-8 md:-top-12 lg:-top-16 left-[77.5%] transform -translate-x-1/2"
           />
-          <span className="text-white text-[40px] font-semibold bg-gray-800 rounded-2xl border border-white px-6 py-3  w-[390px] h-[80px] flex justify-center gap-3 items-center  transition-all duration-500 hover:border-white hover:bg-gray-700 animate-fade-in-delay-3 absolute top-[110%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <span className="text-white text-lg md:text-2xl lg:text-[40px] font-semibold bg-gray-800 rounded-xl md:rounded-2xl border border-white px-3 md:px-4 lg:px-6 py-2 md:py-3 w-[250px] md:w-[320px] lg:w-[390px] h-[50px] md:h-[65px] lg:h-[80px] flex justify-center gap-2 md:gap-3 items-center transition-all duration-500 hover:border-white hover:bg-gray-700 animate-fade-in-delay-3 absolute lg:top-[110%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             {cryptos.find((c) => c.id === selectedCrypto)?.name}
-            <span className="font-thin">
+            <span className="font-thin text-sm md:text-base lg:text-lg">
               {"  "}({cryptos.find((c) => c.id === selectedCrypto)?.symbol})
             </span>
           </span>
@@ -409,12 +471,36 @@ const Header: React.FC = () => {
 
         /* Custom Swiper Styles */
         .crypto-swiper {
-          padding: 40px 0;
+          padding: 20px 0;
+        }
+
+        @media (min-width: 640px) {
+          .crypto-swiper {
+            padding: 30px 0;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .crypto-swiper {
+            padding: 40px 0;
+          }
         }
 
         .crypto-swiper .swiper-slide {
           transition: all 0.8s ease-out;
-          margin: 0 20px;
+          margin: 0 10px;
+        }
+
+        @media (min-width: 640px) {
+          .crypto-swiper .swiper-slide {
+            margin: 0 15px;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .crypto-swiper .swiper-slide {
+            margin: 0 20px;
+          }
         }
 
         /* Remove default Swiper scaling since we're handling it dynamically */
