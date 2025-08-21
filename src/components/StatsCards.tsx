@@ -46,7 +46,7 @@ const stats: StatCard[] = [
 
 const StatsCards: React.FC = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 px-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 px-4 pt-16">
       {stats.map((stat, index) => (
         <div
           key={index}
