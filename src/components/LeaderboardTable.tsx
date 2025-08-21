@@ -272,26 +272,36 @@ const LeaderboardTable: React.FC = () => {
 
   return (
     <div className="px-4 mb-8">
-      <h2 className="text-3xl md:text-4xl font-bold text-yellow-500 text-center mb-6">
+      <h2 className="text-3xl md:text-[80px] font-bold text-[#DFBC2E] text-center mb-6">
         LEADERBOARD
       </h2>
 
       <div className="overflow-x-auto">
         <table className="w-full rounded-xl border-y border-gray-700">
           <thead>
-            <tr className="border-b border-gray-700 bg-[#594B12]">
-              <th className="text-left p-4 text-white font-semibold">Rank</th>
-              <th className="text-left p-4 text-white font-semibold">Roles</th>
-              <th className="text-left p-4 text-white font-semibold">Wallet</th>
-              <th className="text-left p-4 text-white font-semibold">Name</th>
-              <th className="text-left p-4 text-white font-semibold">
+            <tr className="border-b border-gray-700 bg-[#594B12] text-xl">
+              <th className="text-left py-2 px-4 text-white font-semibold">
+                Rank
+              </th>
+              <th className="text-left py-2 px-4 text-white font-semibold">
+                Roles
+              </th>
+              <th className="text-left py-2 px-4 text-white font-semibold">
+                Wallet
+              </th>
+              <th className="text-left py-2 px-4 text-white font-semibold">
+                Name
+              </th>
+              <th className="text-left py-2 px-4 text-white font-semibold">
                 Balance
               </th>
-              <th className="text-left p-4 text-white font-semibold">
+              <th className="text-left py-2 px-4 text-white font-semibold">
                 Hold Time
               </th>
-              <th className="text-left p-4 text-white font-semibold">Tags</th>
-              <th className="text-left p-4 text-white font-semibold">
+              <th className="text-left py-2 px-4 text-white font-semibold">
+                Tags
+              </th>
+              <th className="text-left py-2 px-4 text-white font-semibold">
                 Actions
               </th>
             </tr>

@@ -349,7 +349,7 @@ const Header: React.FC = () => {
             height={100}
             className="hidden lg:block absolute w-[120px] md:w-[180px] lg:w-[230px] -top-8 md:-top-12 lg:-top-4 left-[77.5%] transform -translate-x-1/2"
           />
-          <span className="text-white text-base sm:text-lg md:text-2xl lg:text-[40px] font-semibold bg-gray-800 rounded-lg sm:rounded-xl md:rounded-2xl border border-white px-2 sm:px-3 md:px-4 lg:px-6 py-1.5 sm:py-2 md:py-3 w-[220px] sm:w-[280px] md:w-[320px] lg:w-[390px] h-[40px] sm:h-[50px] md:h-[65px] lg:h-[80px] flex justify-center gap-1.5 sm:gap-2 md:gap-3 items-center transition-all duration-500 hover:border-white hover:bg-gray-700 animate-fade-in-delay-3 absolute lg:top-[140%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <span className="text-white text-base sm:text-lg md:text-2xl lg:text-[40px] font-semibold bg-[#3D340D] rounded-lg sm:rounded-xl md:rounded-[21px] border border-white px-2 sm:px-3 md:px-4 lg:px-6 py-1.5 sm:py-2 md:py-3 w-[220px] sm:w-[280px] md:w-[320px] lg:w-[390px] h-[40px] sm:h-[50px] md:h-[65px] lg:h-[80px] flex justify-center gap-1.5 sm:gap-2 md:gap-3 items-center transition-all duration-500 hover:border-white hover:bg-gray-700 animate-fade-in-delay-3 absolute lg:top-[140%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             {cryptos.find((c) => c.id === selectedCrypto)?.name}
             <span className="font-thin text-xs sm:text-sm md:text-base lg:text-lg">
               {"  "}({cryptos.find((c) => c.id === selectedCrypto)?.symbol})

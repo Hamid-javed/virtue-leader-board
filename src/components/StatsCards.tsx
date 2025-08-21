@@ -51,7 +51,7 @@ const StatsCards: React.FC = () => {
         <div
           key={index}
           style={{ backgroundColor: stat.bgColor }}
-          className="rounded-2xl p-6 border border-gray-700 hover:border-gray-600 transition-colors"
+          className="rounded-[30px] p-6 border border-gray-700 hover:border-gray-600 transition-colors"
         >
           <div className="flex flex-col">
             <h3 className={`${stat.textColor} font-medium text-sm mb-2`}>
