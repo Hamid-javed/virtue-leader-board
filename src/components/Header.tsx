@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
 
 // Import Swiper styles
 import "swiper/css";
@@ -32,7 +33,8 @@ const Header: React.FC = () => {
   const [dotPositions, setDotPositions] = useState<
     Array<{ left: string; top: string; delay: string; duration: string }>
   >([]);
-  const swiperRef = useRef<any>(null);
+  const [windowWidth, setWindowWidth] = useState(1024); // Default fallback
+  const swiperRef = useRef<{ swiper: SwiperType }>(null);
 
   // Generate dot positions only once when component mounts
   React.useEffect(() => {
@@ -45,7 +47,23 @@ const Header: React.FC = () => {
     setDotPositions(positions);
   }, []);
 
-  const handleSlideChange = (swiper: any) => {
+  // Track window width for responsive sizing
+  React.useEffect(() => {
+    const updateWindowWidth = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    // Set initial width
+    updateWindowWidth();
+
+    // Add event listener
+    window.addEventListener("resize", updateWindowWidth);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", updateWindowWidth);
+  }, []);
+
+  const handleSlideChange = (swiper: SwiperType) => {
     // Get the real index considering loop functionality
     const realIndex = swiper.realIndex;
     const cryptoId = cryptos[realIndex].id;
@@ -177,7 +195,7 @@ const Header: React.FC = () => {
             //   },
             // }}
           >
-            {cryptos.map((crypto, index) => {
+            {cryptos.map((crypto) => {
               const isSelected = selectedCrypto === crypto.id;
               const isHovered = hoveredCrypto === crypto.id;
 
@@ -201,11 +219,7 @@ const Header: React.FC = () => {
                 iconSize =
                   "w-16 h-16 sm:w-24 sm:h-24 md:w-36 md:h-36 lg:w-48 lg:h-48";
                 pcircleSize =
-                  window.innerWidth < 640
-                    ? 80
-                    : window.innerWidth < 1024
-                    ? 160
-                    : 240;
+                  windowWidth < 640 ? 80 : windowWidth < 1024 ? 160 : 240;
               } else if (distance === 1) {
                 // Adjacent cryptos - MEDIUM
                 buttonSize =
@@ -213,11 +227,7 @@ const Header: React.FC = () => {
                 iconSize =
                   "w-12 h-12 sm:w-16 sm:h-16 md:w-28 md:h-28 lg:w-32 lg:h-32";
                 pcircleSize =
-                  window.innerWidth < 640
-                    ? 64
-                    : window.innerWidth < 1024
-                    ? 128
-                    : 160;
+                  windowWidth < 640 ? 64 : windowWidth < 1024 ? 128 : 160;
               } else {
                 // Outer cryptos - SMALL
                 buttonSize =
@@ -225,11 +235,7 @@ const Header: React.FC = () => {
                 iconSize =
                   "w-10 h-10 sm:w-12 sm:h-12 md:w-24 md:h-24 lg:w-24 lg:h-24";
                 pcircleSize =
-                  window.innerWidth < 640
-                    ? 56
-                    : window.innerWidth < 1024
-                    ? 96
-                    : 128;
+                  windowWidth < 640 ? 56 : windowWidth < 1024 ? 96 : 128;
               }
 
               return (
@@ -265,39 +271,39 @@ const Header: React.FC = () => {
                       alt={crypto.name}
                       width={
                         isSelected
-                          ? window.innerWidth < 640
+                          ? windowWidth < 640
                             ? 32
-                            : window.innerWidth < 1024
+                            : windowWidth < 1024
                             ? 60
                             : 80
                           : distance === 1
-                          ? window.innerWidth < 640
+                          ? windowWidth < 640
                             ? 28
-                            : window.innerWidth < 1024
+                            : windowWidth < 1024
                             ? 60
                             : 80
-                          : window.innerWidth < 640
+                          : windowWidth < 640
                           ? 24
-                          : window.innerWidth < 1024
+                          : windowWidth < 1024
                           ? 50
                           : 65
                       }
                       height={
                         isSelected
-                          ? window.innerWidth < 640
+                          ? windowWidth < 640
                             ? 32
-                            : window.innerWidth < 1024
+                            : windowWidth < 1024
                             ? 60
                             : 80
                           : distance === 1
-                          ? window.innerWidth < 640
+                          ? windowWidth < 640
                             ? 28
-                            : window.innerWidth < 1024
+                            : windowWidth < 1024
                             ? 60
                             : 80
-                          : window.innerWidth < 640
+                          : windowWidth < 640
                           ? 24
-                          : window.innerWidth < 1024
+                          : windowWidth < 1024
                           ? 50
                           : 65
                       }
