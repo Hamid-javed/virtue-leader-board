@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { IoReload } from "react-icons/io5";
 
 interface FilterOption {
   value: string;
@@ -35,14 +36,14 @@ const Filters: React.FC = () => {
   return (
     <div className="flex flex-col sm:flex-row gap-6 mb-8 px-4 w-full">
       <div className="flex flex-col flex-1">
-        <label className="text-gray-400 text-sm mb-2 font-medium">
+        <label className="text-gray-400 text-xl mb-2 font-medium">
           Filter by Role
         </label>
         <div className="relative">
           <select
             value={selectedRole}
             onChange={(e) => setSelectedRole(e.target.value)}
-            className="appearance-none bg-black border border-yellow-400 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-300 w-full cursor-pointer"
+            className="appearance-none bg-black border border-[#DFBC2E] rounded-[20px] px-4 py-3 text-white focus:outline-none focus:border-yellow-300 w-full cursor-pointer"
           >
             {roleOptions.map((option) => (
               <option
@@ -73,12 +74,12 @@ const Filters: React.FC = () => {
       </div>
 
       <div className="flex flex-col">
-        <label className="text-gray-400 text-sm mb-2 font-medium">Tags</label>
+        <label className="text-gray-400 text-xl mb-2 font-medium">Tags</label>
         <div className="relative">
           <select
             value={selectedTag}
             onChange={(e) => setSelectedTag(e.target.value)}
-            className="appearance-none bg-black border border-yellow-400 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-300 w-full md:w-72 cursor-pointer"
+            className="appearance-none bg-black border border-[#DFBC2E] rounded-[20px] px-4 py-3 text-white focus:outline-none focus:border-yellow-300 w-full md:w-72 cursor-pointer"
           >
             {tagOptions.map((option) => (
               <option
@@ -109,29 +110,15 @@ const Filters: React.FC = () => {
       </div>
 
       <div className="flex flex-col">
-        <div className="flex items-center gap-2 mb-2">
-          <label className="text-gray-400 text-sm font-medium">Show Top</label>
-          <button className="w-4 h-4 rounded-full bg-yellow-400 flex items-center justify-center hover:bg-yellow-300 transition-colors">
-            <svg
-              className="w-3 h-3 text-black"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-              />
-            </svg>
-          </button>
+        <div className="flex justify-between items-center gap-2 mb-2">
+          <label className="text-gray-400 text-xl font-medium">Show Top</label>
+          <IoReload className="text-[#DFBC2E] text-lg" />
         </div>
         <div className="relative">
           <select
             value={selectedTop}
             onChange={(e) => setSelectedTop(e.target.value)}
-            className="appearance-none bg-black border border-yellow-400 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-300 w-full md:w-40 cursor-pointer"
+            className="appearance-none bg-black border border-[#DFBC2E] rounded-[20px] px-4 py-3 text-white focus:outline-none focus:border-yellow-300 w-full md:w-40 cursor-pointer"
           >
             {topOptions.map((option) => (
               <option
