@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { IoEyeOutline } from "react-icons/io5";
+import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 
 interface LeaderboardEntry {
   rank: number;
@@ -269,12 +270,84 @@ const mockData: LeaderboardEntry[] = [
 
 const LeaderboardTable: React.FC = () => {
   const [entries] = useState<LeaderboardEntry[]>(mockData);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  // Calculate pagination values
+  const totalPages = Math.ceil(entries.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentEntries = entries.slice(startIndex, endIndex);
+
+  // Generate page numbers to display
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+
+    if (totalPages <= maxVisiblePages) {
+      // Show all pages if total is less than max visible
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Show pages around current page
+      let startPage = Math.max(
+        1,
+        currentPage - Math.floor(maxVisiblePages / 2)
+      );
+      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+      // Adjust if we're near the end
+      if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+    }
+
+    return pages;
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handleItemsPerPageChange = (newItemsPerPage: number) => {
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1); // Reset to first page when changing items per page
+  };
 
   return (
     <div className="px-4 mb-8">
       <h2 className="text-3xl md:text-[80px] font-bold text-[#DFBC2E] text-center mb-6">
         LEADERBOARD
       </h2>
+
+      {/* Items per page selector */}
+      <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center space-x-3">
+          <span className="text-gray-300 text-sm">Show:</span>
+          <select
+            value={itemsPerPage}
+            onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
+            className="bg-[#594B12] border border-[#DFBC2E] text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#DFBC2E] focus:ring-opacity-50"
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={15}>15</option>
+            <option value={20}>20</option>
+            <option value={25}>25</option>
+          </select>
+          <span className="text-gray-300 text-sm">entries</span>
+        </div>
+
+        <div className="text-gray-300 text-sm">
+          Showing {startIndex + 1} to {Math.min(endIndex, entries.length)} of{" "}
+          {entries.length} entries
+        </div>
+      </div>
 
       <div className="overflow-x-auto">
         <table className="w-full rounded-xl border-y border-gray-700">
@@ -307,7 +380,7 @@ const LeaderboardTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {entries.map((entry) => (
+            {currentEntries.map((entry) => (
               <tr
                 key={entry.rank}
                 className="border-b border-gray-700 hover:bg-gray-700 transition-colors"
@@ -386,6 +459,64 @@ const LeaderboardTable: React.FC = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex flex-col sm:flex-row justify-between items-center mt-8 space-y-4 sm:space-y-0">
+          {/* Page info */}
+          <div className="text-gray-300 text-sm">
+            Page {currentPage} of {totalPages}
+          </div>
+
+          {/* Pagination controls */}
+          <div className="flex items-center space-x-2">
+            {/* Previous button */}
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`flex items-center px-3 py-2 rounded-lg border transition-all duration-200 ${
+                currentPage === 1
+                  ? "border-gray-600 text-gray-500 cursor-not-allowed"
+                  : "border-[#DFBC2E] text-[#DFBC2E] hover:bg-[#DFBC2E] hover:text-black hover:shadow-lg"
+              }`}
+            >
+              <IoChevronBack className="w-4 h-4 mr-1" />
+              Previous
+            </button>
+
+            {/* Page numbers */}
+            <div className="flex items-center space-x-1">
+              {getPageNumbers().map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`w-10 h-10 rounded-lg border transition-all duration-200 flex items-center justify-center text-sm font-medium ${
+                    page === currentPage
+                      ? "bg-[#DFBC2E] text-black border-[#DFBC2E] shadow-lg"
+                      : "border-[#DFBC2E] text-[#DFBC2E] hover:bg-[#DFBC2E] hover:text-black hover:shadow-lg"
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+            </div>
+
+            {/* Next button */}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`flex items-center px-3 py-2 rounded-lg border transition-all duration-200 ${
+                currentPage === totalPages
+                  ? "border-gray-600 text-gray-500 cursor-not-allowed"
+                  : "border-[#DFBC2E] text-[#DFBC2E] hover:bg-[#DFBC2E] hover:text-black hover:shadow-lg"
+              }`}
+            >
+              Next
+              <IoChevronForward className="w-4 h-4 ml-1" />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
