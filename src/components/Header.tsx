@@ -35,6 +35,7 @@ const Header: React.FC = () => {
   >([]);
   const [windowWidth, setWindowWidth] = useState(1024); // Default fallback
   const swiperRef = useRef<{ swiper: SwiperType }>(null);
+  const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Generate dot positions only once when component mounts
   React.useEffect(() => {
@@ -61,6 +62,34 @@ const Header: React.FC = () => {
 
     // Cleanup
     return () => window.removeEventListener("resize", updateWindowWidth);
+  }, []);
+
+  // Auto-scroll functionality
+  React.useEffect(() => {
+    const startAutoScroll = () => {
+      autoScrollIntervalRef.current = setInterval(() => {
+        if (swiperRef.current && swiperRef.current.swiper) {
+          const currentIndex = swiperRef.current.swiper.realIndex;
+          const nextIndex = (currentIndex + 1) % cryptos.length;
+          swiperRef.current.swiper.slideToLoop(nextIndex);
+        }
+      }, 3000);
+    };
+
+    const stopAutoScroll = () => {
+      if (autoScrollIntervalRef.current) {
+        clearInterval(autoScrollIntervalRef.current);
+        autoScrollIntervalRef.current = null;
+      }
+    };
+
+    // Start auto-scroll
+    startAutoScroll();
+
+    // Cleanup on unmount
+    return () => {
+      stopAutoScroll();
+    };
   }, []);
 
   const handleSlideChange = (swiper: SwiperType) => {
@@ -95,6 +124,26 @@ const Header: React.FC = () => {
       setSelectedCrypto(cryptos[realIndex].id);
     }
   }, []);
+
+  // Pause auto-scroll on hover, resume on mouse leave
+  const handleMouseEnter = () => {
+    if (autoScrollIntervalRef.current) {
+      clearInterval(autoScrollIntervalRef.current);
+      autoScrollIntervalRef.current = null;
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!autoScrollIntervalRef.current) {
+      autoScrollIntervalRef.current = setInterval(() => {
+        if (swiperRef.current && swiperRef.current.swiper) {
+          const currentIndex = swiperRef.current.swiper.realIndex;
+          const nextIndex = (currentIndex + 1) % cryptos.length;
+          swiperRef.current.swiper.slideToLoop(nextIndex);
+        }
+      }, 3000);
+    }
+  };
 
   return (
     <header className="py-4 sm:py-6 md:py-14 relative mb-8 sm:mb-12 md:mb-20">
@@ -162,7 +211,11 @@ const Header: React.FC = () => {
         />
 
         {/* Swiper Carousel */}
-        <div className="w-full max-w-4xl relative z-10 min-h-[20vh] sm:min-h-[32vh] md:min-h-[34vh]">
+        <div
+          className="w-full max-w-4xl relative z-10 min-h-[20vh] sm:min-h-[32vh] md:min-h-[34vh]"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           <Swiper
             ref={swiperRef}
             effect="coverflow"
